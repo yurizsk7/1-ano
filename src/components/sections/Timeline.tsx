@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart, Sparkles, Stars, Camera, X } from "lucide-react";
 
@@ -50,6 +51,18 @@ const newEvents = [
 
 export default function Timeline() {
   const [selectedMoment, setSelectedMoment] = useState<typeof newEvents[0] | null>(null);
+
+  // Scroll lock effect
+  useEffect(() => {
+    if (selectedMoment) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [selectedMoment]);
 
   return (
     <section className="relative w-full min-h-screen bg-transparent py-40 px-6 overflow-hidden">
@@ -108,57 +121,62 @@ export default function Timeline() {
         </div>
       </div>
 
-      {/* Modal for Expanded Moments */}
-      <AnimatePresence>
-        {selectedMoment && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12 bg-black/95 backdrop-blur-md"
-            onClick={() => setSelectedMoment(null)}
-          >
-            <motion.button
-              className="absolute top-8 right-8 text-white/50 hover:text-white z-[110]"
+      {/* Modal for Expanded Moments using Portal for fixed positioning fix */}
+      {typeof document !== "undefined" && createPortal(
+        <AnimatePresence>
+          {selectedMoment && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-md overflow-y-auto overscroll-none"
               onClick={() => setSelectedMoment(null)}
             >
-              <X size={40} />
-            </motion.button>
+              <div className="min-h-full w-full flex items-center justify-center p-4 md:p-12">
+                <motion.button
+                  className="fixed top-8 right-8 text-white/50 hover:text-white z-[10000]"
+                  onClick={() => setSelectedMoment(null)}
+                >
+                  <X size={40} />
+                </motion.button>
 
-            <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center" onClick={e => e.stopPropagation()}>
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ type: "spring", damping: 25 }}
-                className="bg-white p-6 pb-20 shadow-[0_0_100px_rgba(212,175,55,0.2)] rounded-sm"
-              >
-                <img 
-                  src={selectedMoment.image} 
-                  alt={selectedMoment.title}
-                  className="w-full h-auto aspect-[4/5] object-cover rounded-sm shadow-inner"
-                  loading="lazy"
-                />
-              </motion.div>
+                <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center" onClick={e => e.stopPropagation()}>
+                  <motion.div
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ type: "spring", damping: 25 }}
+                    className="bg-white p-6 pb-20 shadow-[0_0_100px_rgba(212,175,55,0.2)] rounded-sm"
+                  >
+                    <img 
+                      src={selectedMoment.image} 
+                      alt={selectedMoment.title}
+                      className="w-full h-auto aspect-[4/5] object-cover rounded-sm shadow-inner"
+                      loading="lazy"
+                    />
+                  </motion.div>
 
-              <motion.div
-                initial={{ x: 50, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="text-left font-serif"
-              >
-                <span className="text-gold-accent text-xl italic mb-4 block">{selectedMoment.date}</span>
-                <h3 className="text-4xl md:text-6xl text-white mb-8 leading-tight">
-                  {selectedMoment.title}
-                </h3>
-                <p className="text-gray-300 text-lg md:text-xl leading-relaxed font-light italic">
-                  "{selectedMoment.details}"
-                </p>
-                <div className="mt-12 w-20 h-[2px] bg-gold-accent/50" />
-              </motion.div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                  <motion.div
+                    initial={{ x: 50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="text-left font-serif"
+                  >
+                    <span className="text-gold-accent text-xl italic mb-4 block">{selectedMoment.date}</span>
+                    <h3 className="text-4xl md:text-6xl text-white mb-8 leading-tight">
+                      {selectedMoment.title}
+                    </h3>
+                    <p className="text-gray-300 text-lg md:text-xl leading-relaxed font-light italic">
+                      "{selectedMoment.details}"
+                    </p>
+                    <div className="mt-12 w-20 h-[2px] bg-gold-accent/50" />
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
   );
 }
