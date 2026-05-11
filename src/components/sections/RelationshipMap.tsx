@@ -64,6 +64,9 @@ export default function RelationshipMap() {
         <h2 className="text-4xl md:text-5xl font-serif text-gold-accent mb-4">
           O Mapa da Nossa História
         </h2>
+        <p className="text-white/40 font-serif italic text-sm md:text-base uppercase tracking-widest">
+          clique nos pontos marcados...
+        </p>
       </motion.div>
 
       {/* The Map Area */}

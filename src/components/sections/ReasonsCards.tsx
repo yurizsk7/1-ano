@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 const reasons = [
@@ -26,6 +27,9 @@ export default function ReasonsCards() {
         <h2 className="text-4xl md:text-5xl font-serif text-gold-accent mb-4">
           Alguns dos (infinitos) motivos...
         </h2>
+        <p className="text-white/40 font-serif italic text-sm md:text-base uppercase tracking-widest mb-4">
+          clique em cada um deles...
+        </p>
         <p className="text-gray-400 text-lg">
           Pelos quais eu me apaixono por você todos os dias!!!
         </p>
@@ -33,38 +37,49 @@ export default function ReasonsCards() {
 
       <div className="relative z-10 w-full max-w-6xl px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 perspective-[1000px]">
         {reasons.map((reason, index) => (
-          <motion.div
-            key={reason.id}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
-            className="w-full h-64 group [perspective:1000px]"
-          >
-            <div className="relative w-full h-full transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-
-              {/* Front side */}
-              <div className="absolute inset-0 w-full h-full [backface-visibility:hidden]">
-                <div className="w-full h-full glass-panel border border-white/5 rounded-2xl flex items-center justify-center p-6 text-center shadow-lg group-hover:border-gold-accent/30 transition-colors">
-                  <h3 className="text-2xl font-serif text-white/90">
-                    {reason.title}
-                  </h3>
-                </div>
-              </div>
-
-              {/* Back side */}
-              <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                <div className="w-full h-full bg-gradient-to-br from-romantic-purple/80 to-romantic-red/80 rounded-2xl flex items-center justify-center p-6 text-center shadow-[0_0_20px_rgba(75,0,130,0.4)] border border-white/20">
-                  <p className="text-white text-lg font-serif leading-relaxed italic">
-                    "{reason.desc}"
-                  </p>
-                </div>
-              </div>
-
-            </div>
-          </motion.div>
+          <ReasonCard key={reason.id} reason={reason} index={index} />
         ))}
       </div>
     </section>
+  );
+}
+
+function ReasonCard({ reason, index }: { reason: typeof reasons[0], index: number }) {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+      className="w-full h-64 cursor-pointer group"
+      onClick={() => setIsFlipped(!isFlipped)}
+    >
+      <div 
+        className={`relative w-full h-full transition-all duration-700 [transform-style:preserve-3d] ${
+          isFlipped ? "[transform:rotateY(180deg)]" : "group-hover:[transform:rotateY(10deg)]"
+        }`}
+      >
+        {/* Front side */}
+        <div className="absolute inset-0 w-full h-full [backface-visibility:hidden]">
+          <div className="w-full h-full glass-panel border border-white/5 rounded-2xl flex flex-col items-center justify-center p-6 text-center shadow-lg group-hover:border-gold-accent/30 transition-colors">
+            <h3 className="text-2xl font-serif text-white/90">
+              {reason.title}
+            </h3>
+            <div className="mt-4 w-8 h-[1px] bg-gold-accent/30 group-hover:w-16 transition-all duration-500" />
+          </div>
+        </div>
+
+        {/* Back side */}
+        <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
+          <div className="w-full h-full bg-gradient-to-br from-romantic-purple/80 to-romantic-red/80 rounded-2xl flex items-center justify-center p-6 text-center shadow-[0_0_20px_rgba(75,0,130,0.4)] border border-white/20">
+            <p className="text-white text-lg font-serif leading-relaxed italic">
+              "{reason.desc}"
+            </p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }

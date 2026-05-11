@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function CinematicEnding() {
   return (
-    <section className="relative w-full min-h-[150vh] bg-transparent flex flex-col items-center justify-end pb-32 overflow-hidden">
+    <section className="relative w-full min-h-[80vh] bg-transparent flex flex-col items-center justify-center py-32 overflow-hidden">
       {/* Background Starry Sky - Deeper than before */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-[#0a0514] via-dark-bg to-dark-bg pointer-events-none" />
 
