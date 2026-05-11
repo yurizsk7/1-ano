@@ -27,11 +27,11 @@ export default function ReasonsCards() {
         <h2 className="text-4xl md:text-5xl font-serif text-gold-accent mb-4">
           Alguns dos (infinitos) motivos...
         </h2>
-        <p className="text-white/40 font-serif italic text-sm md:text-base uppercase tracking-widest mb-4">
-          clique em cada um deles...
-        </p>
-        <p className="text-gray-400 text-lg">
+        <p className="text-gray-400 text-lg mb-4">
           Pelos quais eu me apaixono por você todos os dias!!!
+        </p>
+        <p className="text-white/40 font-serif italic text-sm md:text-base uppercase tracking-widest">
+          clique em cada um deles...
         </p>
       </motion.div>
 
