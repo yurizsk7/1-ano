@@ -5,73 +5,58 @@ import { motion } from "framer-motion";
 export default function GlobalBackground() {
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-dark-bg">
-      {/* Animated Nebulae */}
+      {/* Animated Nebulae - Optimized with lower blurs and hardware acceleration */}
       <motion.div
         animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.15, 0.25, 0.15],
-          x: [0, 50, 0],
-          y: [0, 30, 0],
-        }}
-        transition={{
-          duration: 15,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] rounded-full bg-romantic-purple blur-[120px] mix-blend-screen"
-      />
-      
-      <motion.div
-        animate={{
-          scale: [1, 1.3, 1],
+          scale: [1, 1.1, 1],
           opacity: [0.1, 0.2, 0.1],
-          x: [0, -40, 0],
-          y: [0, -60, 0],
+          x: [0, 30, 0],
+          y: [0, 20, 0],
         }}
         transition={{
           duration: 20,
           repeat: Infinity,
           ease: "easeInOut",
-          delay: 2,
         }}
-        className="absolute bottom-[10%] -right-[10%] w-[50%] h-[50%] rounded-full bg-romantic-red blur-[120px] mix-blend-screen"
+        className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] rounded-full bg-romantic-purple blur-[80px] mix-blend-screen will-change-transform"
       />
-
+      
       <motion.div
         animate={{
-          opacity: [0.05, 0.15, 0.05],
+          scale: [1, 1.2, 1],
+          opacity: [0.08, 0.15, 0.08],
+          x: [0, -30, 0],
+          y: [0, -40, 0],
         }}
         transition={{
-          duration: 10,
+          duration: 25,
           repeat: Infinity,
           ease: "easeInOut",
+          delay: 2,
         }}
-        className="absolute top-[40%] left-[30%] w-[40%] h-[40%] rounded-full bg-gold-accent/20 blur-[100px] mix-blend-screen"
+        className="absolute bottom-[10%] -right-[10%] w-[50%] h-[50%] rounded-full bg-romantic-red blur-[80px] mix-blend-screen will-change-transform"
       />
 
-      {/* Static Star Field (will appear as fixed) */}
-      <div className="absolute inset-0">
-        {Array.from({ length: 80 }).map((_, i) => (
-          <div
-            key={`gstar-${i}`}
-            className="absolute bg-white rounded-full"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              width: `${Math.random() * 1.5 + 0.5}px`,
-              height: `${Math.random() * 1.5 + 0.5}px`,
-              opacity: Math.random() * 0.3 + 0.1,
-              boxShadow: Math.random() > 0.8 ? "0 0 4px 1px rgba(255, 255, 255, 0.3)" : "none",
-            }}
-          />
-        ))}
-      </div>
+      {/* Static Star Field - Optimized using a single element with multiple box-shadows */}
+      <div 
+        className="absolute inset-0 opacity-40"
+        style={{
+          backgroundImage: `radial-gradient(1px 1px at 20px 30px, #eee, rgba(0,0,0,0)),
+                            radial-gradient(1.5px 1.5px at 40px 70px, #fff, rgba(0,0,0,0)),
+                            radial-gradient(1px 1px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                            radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+                            radial-gradient(1.5px 1.5px at 130px 80px, #fff, rgba(0,0,0,0)),
+                            radial-gradient(1px 1px at 160px 120px, #ddd, rgba(0,0,0,0))`,
+          backgroundSize: '200px 200px',
+          backgroundRepeat: 'repeat',
+        }}
+      />
 
       {/* Noise Texture Overlay */}
-      <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay noise-bg pointer-events-none" />
+      <div className="absolute inset-0 opacity-[0.02] mix-blend-overlay noise-bg pointer-events-none" />
       
       {/* Vignette */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(5,5,8,0.4)_70%,rgba(5,5,8,0.8)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(5,5,8,0.3)_70%,rgba(5,5,8,0.6)_100%)]" />
     </div>
   );
 }

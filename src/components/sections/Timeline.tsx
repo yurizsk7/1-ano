@@ -53,21 +53,20 @@ export default function Timeline() {
 
   return (
     <section className="relative w-full min-h-screen bg-transparent py-40 px-6 overflow-hidden">
-      {/* Background Cinematic Particles */}
-      <div className="absolute inset-0 pointer-events-none opacity-20">
-        {Array.from({ length: 50 }).map((_, i) => (
+      {/* Background Cinematic Particles - Reduced for performance */}
+      <div className="absolute inset-0 pointer-events-none opacity-10">
+        {Array.from({ length: 20 }).map((_, i) => (
           <motion.div
             key={`p-${i}`}
-            className="absolute bg-white rounded-full w-1 h-1"
+            className="absolute bg-white rounded-full w-1 h-1 will-change-transform"
             animate={{
-              y: [0, -1000],
-              opacity: [0, 0.8, 0],
-              scale: [0, 1.5, 0],
+              y: [0, -800],
+              opacity: [0, 0.6, 0],
             }}
             transition={{
-              duration: Math.random() * 15 + 15,
+              duration: Math.random() * 10 + 10,
               repeat: Infinity,
-              delay: Math.random() * 20,
+              delay: Math.random() * 10,
               ease: "linear",
             }}
             style={{
@@ -82,7 +81,7 @@ export default function Timeline() {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-32"
         >
           <span className="text-gold-accent font-serif italic text-lg mb-2 block">Nossa História</span>
@@ -128,15 +127,16 @@ export default function Timeline() {
 
             <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center" onClick={e => e.stopPropagation()}>
               <motion.div
-                initial={{ scale: 0.8, opacity: 0, rotate: -5 }}
-                animate={{ scale: 1, opacity: 1, rotate: 0 }}
-                transition={{ type: "spring", damping: 20 }}
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: "spring", damping: 25 }}
                 className="bg-white p-6 pb-20 shadow-[0_0_100px_rgba(212,175,55,0.2)] rounded-sm"
               >
                 <img 
                   src={selectedMoment.image} 
                   alt={selectedMoment.title}
                   className="w-full h-auto aspect-[4/5] object-cover rounded-sm shadow-inner"
+                  loading="lazy"
                 />
               </motion.div>
 
@@ -171,7 +171,7 @@ function TimelineItem({ event, index, onOpen }: { event: typeof newEvents[0], in
       initial={{ opacity: 0, y: 100 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 1.2, ease: "easeOut" }}
+      transition={{ duration: 1, ease: "easeOut" }}
       className={`relative flex flex-col md:flex-row items-center w-full ${
         isEven ? "md:justify-start" : "md:justify-end"
       }`}
@@ -185,22 +185,22 @@ function TimelineItem({ event, index, onOpen }: { event: typeof newEvents[0], in
         <motion.div
           onClick={onOpen}
           whileHover={{ 
-            scale: 1.05, 
-            rotate: 0,
-            transition: { duration: 0.4 } 
+            scale: 1.02, 
+            transition: { duration: 0.3 } 
           }}
           className="relative group cursor-pointer"
           style={{ rotate: event.rotation }}
         >
           {/* Card Shadow/Glow */}
-          <div className="absolute inset-0 bg-gold-accent/10 rounded-sm blur-3xl opacity-0 group-hover:opacity-60 transition-opacity duration-700" />
+          <div className="absolute inset-0 bg-gold-accent/5 rounded-sm blur-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-700" />
           
           <div className="bg-[#fefefe] p-3 md:p-5 pb-16 md:pb-24 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] rounded-sm transition-all duration-500 border border-gray-100">
             <div className="relative aspect-[4/5] overflow-hidden bg-gray-100 rounded-sm mb-4 w-64 sm:w-80 lg:w-[400px]">
               <motion.img
                 src={event.image}
                 alt={event.title}
-                className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110"
+                className="w-full h-full object-cover transition-all duration-1000"
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-60" />
               

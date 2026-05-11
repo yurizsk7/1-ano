@@ -39,13 +39,13 @@ export default function Hero({ onStart }: { onStart: () => void }) {
     onStart();
   };
 
-  // Generate some random stars
-  const stars = Array.from({ length: 50 }).map((_, i) => ({
+  // Generate fewer stars for performance
+  const stars = Array.from({ length: 25 }).map((_, i) => ({
     id: i,
     top: `${Math.random() * 100}%`,
     left: `${Math.random() * 100}%`,
     animationDelay: `${Math.random() * 5}s`,
-    size: Math.random() * 2 + 1,
+    size: Math.random() * 1.5 + 0.5,
   }));
 
   return (
@@ -55,14 +55,14 @@ export default function Hero({ onStart }: { onStart: () => void }) {
         {stars.map((star) => (
           <div
             key={star.id}
-            className="absolute bg-white rounded-full opacity-0 animate-pulse-slow"
+            className="absolute bg-white rounded-full opacity-0 animate-pulse-slow will-change-opacity"
             style={{
               top: star.top,
               left: star.left,
               width: `${star.size}px`,
               height: `${star.size}px`,
               animationDelay: star.animationDelay,
-              boxShadow: "0 0 8px rgba(255,255,255,0.8)",
+              boxShadow: "0 0 4px rgba(255,255,255,0.4)",
             }}
           />
         ))}
@@ -75,10 +75,10 @@ export default function Hero({ onStart }: { onStart: () => void }) {
           {step >= 1 && step <= 6 && (
             <motion.h1
               key={`t${step}`}
-              initial={{ opacity: 0, y: 10, filter: "blur(10px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -10, filter: "blur(10px)" }}
-              transition={{ duration: 1.5 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 1.2 }}
               className="text-4xl md:text-6xl text-soft-white mb-8"
             >
               {texts[step - 1]}
@@ -87,9 +87,9 @@ export default function Hero({ onStart }: { onStart: () => void }) {
           {step >= 7 && (
             <motion.div
               key="t7"
-              initial={{ opacity: 0, y: 10, filter: "blur(10px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 2 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.5 }}
               className="flex flex-col items-center"
             >
               <h1 className="text-3xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-soft-white to-gold-accent mb-12 max-w-4xl leading-relaxed">
